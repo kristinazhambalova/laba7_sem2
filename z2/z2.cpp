@@ -1,7 +1,7 @@
 ﻿#include <iostream>
 #include <vector>
 #include <list>
-#include <chrono>
+#include <chrono>  // для изменения времени
 
 using namespace std;
 using namespace std::chrono;
@@ -10,13 +10,19 @@ void test_insert(int n) {
     list<int> l;
     vector<int> v;
 
-    auto start = high_resolution_clock::now();
-    for (int i = 0; i < n; i++) {
+    //измерение времени для вставки элементов в список
+
+    // тип auto позволяет компилятору самостоятельно определить тип переменной 
+    // на основе ее инициализации
+    auto start = high_resolution_clock::now();   //записывается текущее время
+    for (int i = 0; i < n; i++) {                //вставка элементов
         l.push_back(i);
     }
     auto end = high_resolution_clock::now();
     cout << "Вставка в список: " << duration_cast<microseconds>(end - start).count() << " мкс" << endl;
-
+    // duration_cast для преобразования значения продолжительности из одного типа в другой
+    //Метод count() извлекает количество микросекунд из объекта std::chrono::microseconds
+    
     start = high_resolution_clock::now();
     for (int i = 0; i < n; i++) {
         v.push_back(i);
@@ -50,6 +56,7 @@ void test_erase(int n) {
 }
 
 int main() {
+
     setlocale(LC_ALL, "RU");
     int n = 1000000;
 
@@ -59,3 +66,10 @@ int main() {
 
     return 0;
 }
+
+
+//Векторы обычно быстрее для этих операций, потому что они используют непрерывный блок памяти, 
+// что позволяет быстро получать доступ к элементам и вставлять или удалять их. 
+// 
+// Списки, с другой стороны, используют узлы, которые могут быть разбросаны по памяти, 
+// что приводит к большему времени доступа и вставки/удаления
